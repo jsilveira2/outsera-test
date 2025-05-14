@@ -13,4 +13,8 @@ export class MoviesRepository {
   async createMany(movies: Omit<Movie, 'id'>[]): Promise<void> {
     await this.prisma.movie.createMany({ data: movies });
   }
+
+  async deleteAll(): Promise<void> {
+    await this.prisma.movie.deleteMany();
+  }
 }

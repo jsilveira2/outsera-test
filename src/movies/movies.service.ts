@@ -46,4 +46,8 @@ export class MoviesService {
 
     return awardRangeSchema.parse(result);
   }
+
+  async deleteAwardIntervals(): Promise<void> {
+    return this.repo.deleteAll();
+  }
 }

@@ -52,3 +52,6 @@ Resposta exemplo:
 
 6- Testes podem ser rodados com o comando:
 npm run test
+
+7- Existe também uma rota para limpar a base caso seja necessário:
+DELETE /movies/awards/intervals
