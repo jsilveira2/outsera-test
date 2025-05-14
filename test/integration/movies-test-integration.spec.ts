@@ -9,22 +9,17 @@ describe('MoviesService Integration Test', () => {
   let repo: MoviesRepository;
 
   beforeEach(async () => {
-    // Configuração do banco de dados real (ou em memória)
     prismaService = new PrismaService();
     repo = new MoviesRepository(prismaService);
     service = new MoviesService(repo);
-
-    // Limpar o banco de dados antes de cada teste, se necessário
     await prismaService.movie.deleteMany({});
   });
 
   afterEach(async () => {
-    // Limpar os dados após cada teste
     await prismaService.movie.deleteMany({});
   });
 
   it('should return correct award intervals from the database', async () => {
-    // Insira dados reais no banco de dados de teste
     await prismaService.movie.createMany({
       data: [
         { year: 2020, title: 'Movie 1', studios: 'Studio A', producers: 'Producer A, Producer B', winner: true },
@@ -33,10 +28,7 @@ describe('MoviesService Integration Test', () => {
       ],
     });
 
-    // Teste real do método que vai consultar o banco
     const result = await service.getAwardIntervals();
-
-    // Verifique os resultados baseados no banco de dados real
     expect(result).toHaveProperty('min');
     expect(result).toHaveProperty('max');
   });
