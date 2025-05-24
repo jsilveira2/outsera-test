@@ -15,20 +15,16 @@ Configuração
 1- Rodar o comando: 
 npm install
 
-2- No arquivo .env (crie um se não existir), adicione as credenciais do seu banco de dados:
-DATABASE_URL=file:memory.db?mode=memory&cache=shared
-CSV_PATH=path/to/your/csv/file.csv
-
-3- Execute os comandos do Prisma:
+2- Execute os comandos do Prisma:
 npx prisma migrate dev
 npx prisma generate
 
-4- Rode a aplicação com o comando:
+3- Rode a aplicação com o comando:
 npm run start:dev
 Isso iniciará o servidor na porta 3000 (ou a porta configurada no seu .env).
 A API estará acessível em http://localhost:3000.
 
-5- Chamar a API na rota:
+4- Chamar a API na rota:
 GET /movies/awards/intervals
 Resposta exemplo:
 {
@@ -50,5 +46,5 @@ Resposta exemplo:
   ]
 }
 
-6- Testes podem ser rodados com o comando:
+5- Testes podem ser rodados com o comando:
 npm run test

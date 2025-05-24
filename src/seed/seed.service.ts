@@ -11,9 +11,8 @@ export class SeedService implements OnModuleInit {
 
   async onModuleInit() {
     console.log('Iniciando SeedService');
-    const envPath = process.env.CSV_PATH;
     const defaultPath = 'movies.csv';
-    const filePath = path.resolve(process.cwd(), envPath || defaultPath);
+    const filePath = path.resolve(defaultPath);
 
     console.log(`Fazendo a leitura CSV de: ${filePath}`);
     await this.loadCSVAndInsert(filePath);
