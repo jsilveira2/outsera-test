@@ -2,34 +2,51 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { MoviesService } from '../../src/movies/movies.service';
 import { MoviesRepository } from '../../src/movies/movies.repository';
+import { SeedService } from '../../src/seed/seed.service';
+import { AwardRangeDto } from '../../src/movies/dto/movie.dto';
 
 describe('MoviesService Integration Test', () => {
   let prismaService: PrismaService;
   let service: MoviesService;
   let repo: MoviesRepository;
+  let seedService: SeedService;
 
   beforeEach(async () => {
     prismaService = new PrismaService();
+    await prismaService.movie.deleteMany({});
+    seedService = new SeedService(prismaService);
+    await seedService.loadCSVAndInsert('Movielist.csv');
+
     repo = new MoviesRepository(prismaService);
     service = new MoviesService(repo);
-    await prismaService.movie.deleteMany({});
   });
 
   afterEach(async () => {
     await prismaService.movie.deleteMany({});
   });
 
-  it('should return correct award intervals from the database', async () => {
-    await prismaService.movie.createMany({
-      data: [
-        { year: 2020, title: 'Movie 1', studios: 'Studio A', producers: 'Producer A, Producer B', winner: true },
-        { year: 2023, title: 'Movie 2', studios: 'Studio B', producers: 'Producer A', winner: true },
-        { year: 2025, title: 'Movie 3', studios: 'Studio C', producers: 'Producer B', winner: true },
-      ],
-    });
-
+  it('should return award intervals matching the CSV file', async () => {
     const result = await service.getAwardIntervals();
-    expect(result).toHaveProperty('min');
-    expect(result).toHaveProperty('max');
+
+    const expectedResult: AwardRangeDto = {
+      min: [
+        {
+          producer: 'Joel Silver',
+          interval: 1,
+          previousWin: 1990,
+          followingWin: 1991,
+        },
+      ],
+      max: [
+        {
+          producer: 'Matthew Vaughn',
+          interval: 13,
+          previousWin: 2002,
+          followingWin: 2015,
+        },
+      ],
+    };
+
+    expect(result).toEqual(expectedResult);
   });
 });

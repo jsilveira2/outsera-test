@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("file:memory.db?mode=memory&cache=shared")
+  url      = "file:memory.db?mode=memory&cache=shared"
 }
 
 model Movie {

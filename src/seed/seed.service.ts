@@ -11,7 +11,7 @@ export class SeedService implements OnModuleInit {
 
   async onModuleInit() {
     console.log('Iniciando SeedService');
-    const defaultPath = 'movies.csv';
+    const defaultPath = 'Movielist.csv';
     const filePath = path.resolve(defaultPath);
 
     console.log(`Fazendo a leitura CSV de: ${filePath}`);
